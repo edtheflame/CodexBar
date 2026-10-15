@@ -6,7 +6,6 @@ import SQLite3
 import CSQLite3
 #endif
 
-#if canImport(SQLite3) || canImport(CSQLite3)
 public enum OpenCodeGoLocalUsageError: LocalizedError, Sendable, Equatable {
     case notDetected
     case historyUnavailable(String)
@@ -484,24 +483,3 @@ public struct OpenCodeGoLocalUsageReader: Sendable {
         return calendar.date(from: components) ?? Date()
     }
 }
-
-#else
-
-public enum OpenCodeGoLocalUsageError: LocalizedError, Sendable, Equatable {
-    case notSupported
-
-    public var errorDescription: String? {
-        "OpenCode Go local usage is only supported on macOS."
-    }
-}
-
-public struct OpenCodeGoLocalUsageReader: Sendable {
-    public init(homeDirectory _: URL = FileManager.default.homeDirectoryForCurrentUser) {}
-    public init(authURL _: URL, databaseURL _: URL) {}
-
-    public func fetch(now _: Date = Date(), historyDays _: Int = 30) throws -> OpenCodeGoUsageSnapshot {
-        throw OpenCodeGoLocalUsageError.notSupported
-    }
-}
-
-#endif

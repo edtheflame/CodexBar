@@ -490,6 +490,7 @@ extension OpenCodeGoLocalUsageReaderTests {
         let breakdowns = try #require(entry.modelBreakdowns)
         #expect(breakdowns.last?.modelName == "gpt-5.1-codex")
         #expect(breakdowns.last?.costUSD == 2.0)
+        #expect(breakdowns.last?.totalTokens == 20)
     }
 
     @Test
